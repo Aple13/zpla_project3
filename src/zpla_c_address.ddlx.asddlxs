@@ -1,0 +1,47 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: { typeName: 'Address',
+                  typeNamePlural: 'Address',
+                  title: { type: #STANDARD, label: 'Address', value: 'AddressId' } } }
+
+annotate view zpla_c_address with
+{
+  @UI.facet: [ { id: 'Address',
+                purpose: #STANDARD,
+                type: #IDENTIFICATION_REFERENCE,
+                label: 'Address',
+                position: 10 } ]
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10 }],
+         selectionField: [{ position: 10 }] }
+  AddressId;
+
+  @UI.hidden: true
+  CustomerId;
+
+  @UI: { lineItem:       [{ position: 20 }],
+         identification: [{ position: 20 }] }
+  Postcode;
+
+  @UI: { lineItem:       [{ position: 30 }],
+         identification: [{ position: 30 }] }
+  City;
+
+  @UI: { lineItem:       [{ position: 40 }],
+         identification: [{ position: 40 }] }
+  Street;
+
+  @UI: { lineItem:       [{ position: 50 }],
+         identification: [{ position: 50 }] }
+  Building;
+
+  @UI: { lineItem:       [{ position: 60 }],
+         identification: [{ position: 60 }] }
+  Apartments;
+
+  @UI.hidden: true
+  LastChangedAt;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

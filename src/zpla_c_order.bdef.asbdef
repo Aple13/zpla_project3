@@ -1,0 +1,23 @@
+projection;
+use draft;
+
+define behavior for zpla_c_order alias Order
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _OrderItems { create; with draft; }
+
+  use action progressStatus;
+  use action completedStatus;
+  use action canceledStatus;
+}
+
+define behavior for zpla_c_order_items alias OrderItems
+{
+  use update;
+  use delete;
+
+  use association _Order { with draft; }
+}

@@ -1,0 +1,68 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: { typeName: 'Customer',
+                  typeNamePlural: 'Customers',
+                  title: { type: #STANDARD, label: 'Customers', value: 'CustomerLastName' } } }
+
+annotate view zpla_c_customer with
+{
+  @UI.facet: [
+        { label: 'General Information',
+            id: 'GeneralInfo',
+            type: #COLLECTION,
+            position: 10 },
+
+        { id: 'Names',
+            purpose: #STANDARD,
+            type: #FIELDGROUP_REFERENCE,
+            parentId: 'GeneralInfo',
+            position: 20,
+            targetQualifier: 'NamesGroup' },
+        { id: 'Contacts',
+            purpose: #STANDARD,
+            type: #FIELDGROUP_REFERENCE,
+            parentId: 'GeneralInfo',
+            label: 'Contacts',
+            position: 30,
+            targetQualifier: 'ContactsGroup' },
+
+        { id: 'Customer',
+                purpose: #STANDARD,
+                type: #IDENTIFICATION_REFERENCE,
+                parentId: 'GeneralInfo',
+                position: 10},
+                
+              { id: 'Address',
+                purpose: #STANDARD,
+                type: #LINEITEM_REFERENCE,
+                label: 'Address',
+                position: 20,
+                targetElement: '_Address'} ]
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10 }] }
+  CustomerId;
+
+  @UI: { lineItem:       [{ position: 20 }] }
+  @UI.fieldGroup: [{ qualifier: 'NamesGroup', position: 10 }]
+  CustomerFirstName;
+
+  @UI: { lineItem:       [{ position: 30 }] }
+  @UI.fieldGroup: [{ qualifier: 'NamesGroup', position: 20 }]
+  CustomerLastName;
+
+  @UI: { lineItem:       [{ position: 40 }] }
+  @UI.fieldGroup: [{ qualifier: 'ContactsGroup', position: 10 }]
+  CustomerPhoneNumber;
+
+  @UI: { lineItem:       [{ position: 50 }] }
+  @UI.fieldGroup: [{ qualifier: 'ContactsGroup', position: 10 }]
+  CustomerEmail;
+
+  @UI.hidden: true
+  AddressId;
+  @UI.hidden: true
+  LastChangedAt;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

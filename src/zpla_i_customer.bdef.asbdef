@@ -1,0 +1,61 @@
+managed;
+
+define behavior for zpla_i_customer alias Customer
+implementation in class zbp_pla_i_customer unique
+persistent table zpla_d_customer
+lock master
+early numbering
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _Address { create; }
+
+  field ( readonly ) CustomerId;
+  field ( mandatory : create, readonly : update ) CustomerFirstName, CustomerLastName;
+  field ( mandatory ) CustomerPhoneNumber, CustomerEmail, AddressId;
+  field ( readonly ) LastChangedAt, LocalLastChangedAt;
+
+  mapping for zpla_d_customer
+  {
+    CustomerId = customer_id;
+    CustomerFirstName = customer_first_name;
+    CustomerLastName = customer_last_name;
+    CustomerPhoneNumber = customer_phone_number;
+    CustomerEmail = customer_email;
+    AddressId = address_id;
+    LastChangedAt = last_changed_at;
+  }
+}
+
+define behavior for zpla_i_address alias Address
+implementation in class zbp_pla_i_address unique
+persistent table zpla_d_address
+lock dependent by _Customer
+early numbering
+authorization dependent by _Customer
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  field ( readonly ) CustomerId, AddressID;
+  field ( mandatory ) Postcode, City, Street, Building, Apartments;
+  field ( readonly ) LastChangedAt, LocalLastChangedAt;
+
+  association _Customer;
+
+  mapping for zpla_d_address
+  {
+    AddressId = address_id;
+    CustomerId = customer_id;
+    Postcode = postal_code;
+    City = city;
+    Street = street;
+    Building = building;
+    Apartments = apartments;
+    LastChangedAt = last_changed_at;
+  }
+}

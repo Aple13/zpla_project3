@@ -1,0 +1,5 @@
+CLASS zbp_pla_i_address DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zpla_i_customer.
+ENDCLASS.
+
+CLASS zbp_pla_i_address IMPLEMENTATION.
+ENDCLASS.

@@ -1,0 +1,114 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: { typeName: 'Order',
+                  typeNamePlural: 'Orders',
+                  title: { type: #STANDARD, label: 'Order' } },
+    presentationVariant: [{ sortOrder: [{ by: 'OrderId', direction: #ASC }] }]
+                }
+annotate view zpla_c_order with
+{
+  @UI.facet: [
+    { id: 'OrderTotalCost',
+        purpose: #HEADER,
+        type: #DATAPOINT_REFERENCE,
+        position: 10,
+        targetQualifier: 'TotalCost' },
+
+    { id: 'StatusId',
+        purpose: #HEADER,
+        type: #DATAPOINT_REFERENCE,
+        position: 20,
+        targetQualifier: 'StatusData' },
+
+    { label: 'General Information',
+        id: 'GeneralInfo',
+        type: #COLLECTION,
+        position: 10 },
+
+    { id: 'Order',
+        purpose: #STANDARD,
+        type: #IDENTIFICATION_REFERENCE,
+        parentId: 'GeneralInfo',
+        position: 10 },
+
+    { id: 'Dates',
+        purpose: #STANDARD,
+        type: #FIELDGROUP_REFERENCE,
+        parentId: 'GeneralInfo',
+        label: 'Dates',
+        position: 30,
+        targetQualifier: 'DatesGroup' },
+
+    { id: 'Prices',
+        purpose: #STANDARD,
+        type: #FIELDGROUP_REFERENCE,
+        parentId: 'GeneralInfo',
+        label: 'Prices',
+        position: 20,
+        targetQualifier: 'PricesGroup' },
+
+    { id: 'OrderItems',
+        purpose: #STANDARD,
+        type: #LINEITEM_REFERENCE,
+        label: 'Order Items',
+        position: 20,
+        targetElement: '_OrderItems'}
+  ]
+
+  @UI.hidden: true
+  OrderUuid;
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10 }] }
+  OrderId;
+
+  @UI: { lineItem:       [{ position: 20 },
+                          { type: #FOR_INTENT_BASED_NAVIGATION, semanticObjectAction: 'display', label: 'Create customer' }],
+         identification: [{ position: 20 }],
+         selectionField: [{ position: 20 }] }
+  @Consumption.semanticObject: 'Customer'
+  CustomerId;
+
+  @UI: { lineItem:       [{ position: 30 }] }
+  @UI.fieldGroup: [{ qualifier: 'DatesGroup', position: 10 }]
+  OrderDate;
+
+  @UI: { lineItem:       [{ position: 40 }] }
+  @UI.fieldGroup: [{ qualifier: 'DatesGroup', position: 20 }]
+  DeliveryDate;
+
+  @UI: { lineItem:       [{ position: 50 }],
+         identification: [{ position: 50 }],
+         selectionField: [{ position: 50 }] }
+  DeliveryId;
+
+  @UI: { lineItem:       [{ position: 60 }] }
+  @UI.fieldGroup: [{ qualifier: 'PricesGroup', position: 20 }]
+  DeliveryCost;
+
+  @UI: { lineItem:       [{ position: 70, criticality: 'StatusCriticality' },
+                          { type: #FOR_ACTION, dataAction: 'progressStatus', label: 'In Progress Status' },
+                          { type: #FOR_ACTION, dataAction: 'completedStatus', label: 'Order Completed' },
+                          { type: #FOR_ACTION, dataAction: 'canceledStatus', label: 'Cancel order' } ],
+         identification: [{ type: #FOR_ACTION, dataAction: 'progressStatus', label: 'In Progress Status' },
+                          { type: #FOR_ACTION, dataAction: 'completedStatus', label: 'Order Completed' },
+                          { type: #FOR_ACTION, dataAction: 'canceledStatus', label: 'Cancel order' } ],
+         selectionField: [{ position: 70 }] }
+  @UI.dataPoint: { qualifier: 'StatusData', title: 'Status', criticality: 'StatusCriticality' }
+  StatusId;
+
+  @UI: { lineItem:       [{ position: 80 }] }
+  @UI.dataPoint: { qualifier: 'TotalCost', title: 'Total Price'}
+  @UI.fieldGroup: [{ qualifier: 'PricesGroup', position: 10 }]
+  OrderTotalCost;
+  @UI.hidden: true
+  CreatedBy;
+  @UI.hidden: true
+  CreatedAt;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LastChangedAt;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

@@ -1,0 +1,42 @@
+@Metadata.layer: #CORE
+@UI: {
+    headerInfo: { typeName: 'OrderItems',
+                  typeNamePlural: 'Order Items',
+                  title: { type: #STANDARD, value: 'Item' }
+                }
+     }
+annotate view zpla_c_order_items with
+{
+  @UI.facet: [{ id: 'OrderItems',
+                 purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 label: 'Order Items',
+                 position: 10}]
+
+  @UI.hidden: true
+  OrderitemUuid;
+  @UI.hidden: true
+  OrderUuid;
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10 },
+                          { type: #FOR_INTENT_BASED_NAVIGATION, semanticObjectAction: 'manage', label: 'Show Item' }],
+         selectionField: [{ position: 10 }] }
+  @Consumption.semanticObject: 'Item'
+  ItemId;
+
+  @UI: { lineItem:       [{ position: 20 }],
+         identification: [{ position: 20 }] }
+  CartQty;
+
+  @UI: { lineItem:       [{ position: 30 }],
+         identification: [{ position: 30 }] }
+  CartSubtotal;
+
+  @UI.hidden: true
+  CreatedBy;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

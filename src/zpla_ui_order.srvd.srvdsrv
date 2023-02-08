@@ -1,0 +1,12 @@
+@EndUserText.label: 'Service definition for Order'
+define service zpla_ui_order {
+  expose zpla_c_order as OrderSale;
+  expose zpla_c_order_items as OrderItems;
+  expose zpla_c_item as Item;
+  expose zpla_i_item_t as ItemT;
+  expose zpla_b_category as Category;
+  expose I_Language as Language;
+  expose zpla_c_customer as Customer;
+  expose zpla_c_address as Address;
+  expose zpla_c_order_analysis as OrderAnalysis;
+}

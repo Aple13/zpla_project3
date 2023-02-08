@@ -1,0 +1,95 @@
+managed;
+with draft;
+
+define behavior for zpla_i_order alias Order
+implementation in class zbp_pla_i_order unique
+persistent table zpla_d_order
+draft table zpla_d_order_d
+lock master total etag LastChangedAt
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _OrderItems { create; with draft; }
+
+  field ( numbering : managed, readonly ) OrderUuid;
+  field ( readonly ) StatusId, OrderId, OrderDate, DeliveryDate, DeliveryCost, OrderTotalCost, Currency;
+  field ( mandatory ) CustomerId, DeliveryId;
+  field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
+
+  action ( features : instance ) progressStatus result [1] $self;
+  action ( features : instance ) completedStatus result [1] $self;
+  action ( features : instance ) canceledStatus result [1] $self;
+
+  internal action recalcTotalPrice;
+
+  determination setOrderId on save { create; }
+  determination calculateTotalPrice on modify { create; field DeliveryId; }
+
+  validation validateCustomer on save { field CustomerId; create; }
+  validation validateDelivery on save { field DeliveryId; create; }
+
+  draft determine action Prepare
+  {
+    validation validateCustomer;
+    validation validateDelivery;
+    validation OrderItems~validateItem;
+    validation OrderItems~validateQty;
+  }
+
+  mapping for zpla_d_order
+  {
+    OrderUuid = order_uuid;
+    OrderId = order_id;
+    CustomerId = customer_id;
+    OrderDate = order_date;
+    DeliveryId = delivery_id;
+    StatusId = status_id;
+    OrderTotalCost = order_total_cost;
+    Currency = currency;
+    CreatedBy = created_by;
+    CreatedAt = created_at;
+    LastChangedBy = last_changed_by;
+    LastChangedAt = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for zpla_i_order_items alias OrderItems
+implementation in class zbp_pla_i_order_items unique
+persistent table zpla_d_orderitem
+draft table zpla_d_orderit_d
+lock dependent by _Order
+authorization dependent by _Order
+etag master LocalLastChangedAt
+{
+  association _Order { with draft; }
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) OrderitemUuid;
+  field ( readonly ) OrderUuid;
+  field ( mandatory ) ItemId, CartQty;
+  field ( readonly ) CartSubtotal, Currency;
+  field ( readonly ) LastChangedBy, CreatedBy, LocalLastChangedAt;
+
+  determination calculateItemSubtotal on modify { field CartQty, ItemId; }
+
+  validation validateItem on save { field ItemId; create; }
+  validation validateQty  on save { field CartQty; create; }
+
+  mapping for zpla_d_orderitem
+  {
+    OrderitemUuid = orderitem_uuid;
+    OrderUuid = order_uuid;
+    ItemId = item_id;
+    CartQty = cart_qty;
+    CartSubtotal = cart_subtotal;
+    Currency = currency;
+    CreatedBy = created_by;
+    LastChangedBy = last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

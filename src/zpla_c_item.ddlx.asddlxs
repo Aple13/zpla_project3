@@ -1,0 +1,47 @@
+@Metadata.layer: #LOCALIZATION
+@UI: {
+    headerInfo: { typeName: 'Item',
+                  typeNamePlural: 'Items',
+                  title: { type: #STANDARD, label: 'Item', value: 'ItemName' } } }
+
+annotate view zpla_c_item with
+{
+  @UI.facet: [{ id: 'Item',
+                  purpose: #STANDARD,
+                  type: #IDENTIFICATION_REFERENCE,
+                  label: 'Item',
+                  position: 10 } ]
+
+  @UI: { lineItem:       [{ position: 10 }],
+         identification: [{ position: 10, label: 'Item ID' }]}
+  ItemId;
+
+  @UI: { lineItem:       [{ position: 20 }],
+         identification: [{ position: 20 }],
+         selectionField: [{ position: 20 }] }
+  CategoryId;
+  
+  @UI.hidden: true
+  CategoryName;
+
+  @UI: { lineItem:       [{ position: 30 }],
+         identification: [{ position: 30 }] }
+  ItemName;
+
+  @UI: { lineItem:       [{ position: 40 }],
+         identification: [{ position: 40 }] }
+  ItemDescription;
+
+  @UI: { lineItem:       [{ position: 50 }],
+         identification: [{ position: 50 }] }
+  ItemPrice;
+
+  @UI.hidden: true
+  Currency;
+
+  @UI.hidden: true
+  ItemQty;
+
+  @UI.hidden: true
+  LastChangedAt;
+}

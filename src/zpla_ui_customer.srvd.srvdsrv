@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition for Customer'
+define service Zpla_ui_customer {
+  expose zpla_c_customer as Customer;
+  expose zpla_c_address as Address;
+}

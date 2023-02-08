@@ -1,0 +1,5 @@
+CLASS zbp_pla_i_customer DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zpla_i_customer.
+ENDCLASS.
+
+CLASS zbp_pla_i_customer IMPLEMENTATION.
+ENDCLASS.
